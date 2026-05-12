@@ -8,7 +8,7 @@ fk = Faker()
 
 def gentestdata():
     with transaction.atomic():
-        for i in range(1000):
+        for i in range(100):
             newPlant = Plant()
             newPlant.name = fk.word()
             newPlant.price = round(random.uniform(100, 5000), 2)
