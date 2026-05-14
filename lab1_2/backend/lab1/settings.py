@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,12 +75,20 @@ WSGI_APPLICATION = 'lab1.wsgi.application'
 
 DATABASES = {
     'default': {
+        #было
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'lab1_db',
+        #'USER': 'django',
+        #'PASSWORD': 'admin123',
+        #'HOST': 'localhost',
+        #'PORT': 5432,
+        
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lab1_db',
-        'USER': 'django',
-        'PASSWORD': 'admin123',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'lab2_db'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'django_user'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASS', ''),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'postgres'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', '5432'), 
     },
 }
 
