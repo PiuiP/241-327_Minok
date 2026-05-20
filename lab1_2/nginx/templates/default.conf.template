@@ -7,12 +7,14 @@ server {
     charset utf-8;
     autoindex off;
 
+    # Фавикон
     location = /favicon.ico {
         access_log off;
         log_not_found off;
     }
 
-    location ~ ^/(admin|api)/?(.*)$ {
+    # Проксируем /plant (как в Django urls.py)
+    location /plant {
         proxy_pass http://backend:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -20,7 +22,17 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # Админка
+    location /admin {
+        proxy_pass http://backend:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Статика
     location /static/ {
-        alias /static/;
+        alias /app/staticfiles/;
     }
 }
